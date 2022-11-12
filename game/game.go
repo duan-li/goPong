@@ -7,7 +7,7 @@ import (
 
 type Game struct {
 	Screen tcell.Screen
-	Ball   Ball
+	Ball   *Ball
 }
 
 func (g *Game) Run() {

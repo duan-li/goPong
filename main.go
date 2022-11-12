@@ -4,10 +4,10 @@ import (
 	"github.com/duan-li/goPong/game"
 	"github.com/gdamore/tcell/v2"
 	"log"
-	"os"
 )
 
 func main() {
+
 	s, err := tcell.NewScreen()
 	if err != nil {
 		log.Fatalf("%+v", err)
@@ -21,30 +21,14 @@ func main() {
 	defStyle := tcell.StyleDefault.Background(tcell.ColorReset).Foreground(tcell.ColorReset)
 	s.SetStyle(defStyle)
 
-	ball := game.Ball{
-		X:      5,
-		Y:      10,
-		Xspeed: 1,
-		Yspeed: 1,
-	}
+	ball := game.NewBall()
 
-	game := game.Game{
+	g := game.Game{
 		Screen: s,
 		Ball:   ball,
 	}
 
-	go game.Run()
+	go g.Run()
+	game.ReactWithInput(&g)
 
-	for {
-
-		switch event := game.Screen.PollEvent().(type) {
-		case *tcell.EventResize:
-			game.Screen.Sync()
-		case *tcell.EventKey:
-			if event.Key() == tcell.KeyEscape || event.Key() == tcell.KeyCtrlC {
-				game.Screen.Fini()
-				os.Exit(0)
-			}
-		}
-	}
 }

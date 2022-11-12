@@ -7,6 +7,16 @@ type Ball struct {
 	Yspeed int
 }
 
+func NewBall() *Ball {
+	ball := Ball{
+		X:      100,
+		Y:      10,
+		Xspeed: 1,
+		Yspeed: 1,
+	}
+	return &ball
+}
+
 func (b *Ball) Display() rune {
 	return '\u25CF'
 }
