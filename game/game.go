@@ -2,12 +2,36 @@ package game
 
 import (
 	"github.com/gdamore/tcell/v2"
+	"log"
 	"time"
 )
 
 type Game struct {
 	Screen tcell.Screen
 	Ball   *Ball
+}
+
+func NewGame() *Game {
+	s, err := tcell.NewScreen()
+	if err != nil {
+		log.Fatalf("%+v", err)
+	}
+
+	if err := s.Init(); err != nil {
+		log.Fatalf("%+v", err)
+	}
+
+	// Set default text style
+	defStyle := tcell.StyleDefault.Background(tcell.ColorReset).Foreground(tcell.ColorReset)
+	s.SetStyle(defStyle)
+
+	ball := NewBall()
+
+	g := Game{
+		Screen: s,
+		Ball:   ball,
+	}
+	return &g
 }
 
 func (g *Game) Run() {
