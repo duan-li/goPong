@@ -1,5 +1,10 @@
 package game
 
+import (
+	"crypto/rand"
+	"math/big"
+)
+
 type Ball struct {
 	X      int
 	Y      int
@@ -11,8 +16,8 @@ func NewBall() *Ball {
 	ball := Ball{
 		X:      100,
 		Y:      10,
-		Xspeed: 1,
-		Yspeed: 1,
+		Xspeed: RandomSpeed(),
+		Yspeed: RandomSpeed(),
 	}
 	return &ball
 }
@@ -33,5 +38,15 @@ func (b *Ball) CheckEdges(maxWidth int, maxHeight int) {
 
 	if b.Y <= 0 || b.Y >= maxHeight {
 		b.Yspeed *= -1
+	}
+}
+
+func RandomSpeed() int {
+	n, _ := rand.Int(rand.Reader, big.NewInt(100))
+	num := n.Int64()
+	if num > 50 {
+		return 1
+	} else {
+		return -1
 	}
 }
