@@ -9,6 +9,7 @@ import (
 type Game struct {
 	Screen tcell.Screen
 	Ball   *Ball
+	Player *Player
 }
 
 func NewGame() *Game {
@@ -27,9 +28,12 @@ func NewGame() *Game {
 
 	ball := NewBall()
 
+	player := NewPlayer()
+
 	g := Game{
 		Screen: s,
 		Ball:   ball,
+		Player: player,
 	}
 	return &g
 }
@@ -44,13 +48,55 @@ func (g *Game) Run() {
 
 		width, height := s.Size()
 
+		// check collision between ball and paddle
+		if g.Ball.intersects(g.Player.Paddle) {
+			g.Ball.reverseX()
+			g.Ball.reverseY()
+		}
+
+		// check collision between ball and edges
 		g.Ball.CheckEdges(width, height)
 
 		g.Ball.Update()
-		s.SetContent(g.Ball.X, g.Ball.Y, g.Ball.Display(), nil, defStyle)
+
+		// display the ball
+		drawSprite(s,
+			g.Ball.X,
+			g.Ball.Y,
+			g.Ball.X,
+			g.Ball.Y,
+			defStyle,
+			g.Ball.Display())
+
+		// display the paddles
+		paddleStyle := tcell.StyleDefault.Background(tcell.ColorWhite).Foreground(tcell.ColorWhite)
+		drawSprite(s,
+			g.Player.Paddle.X,
+			g.Player.Paddle.Y,
+			g.Player.Paddle.X+g.Player.Paddle.width,
+			g.Player.Paddle.Y+g.Player.Paddle.height,
+			paddleStyle,
+			g.Player.Paddle.Display())
 
 		time.Sleep(40 * time.Millisecond)
 		s.Show()
 	}
 
+}
+
+func drawSprite(s tcell.Screen, x1, y1, x2, y2 int, style tcell.Style, text string) {
+	row := y1
+	col := x1
+
+	for _, r := range []rune(text) {
+		s.SetContent(col, row, r, nil, style)
+		col++
+		if col >= x2 {
+			row++
+			col = x1
+		}
+		if row > y2 {
+			break
+		}
+	}
 }

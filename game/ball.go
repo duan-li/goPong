@@ -22,8 +22,8 @@ func NewBall() *Ball {
 	return &ball
 }
 
-func (b *Ball) Display() rune {
-	return '\u25CF'
+func (b *Ball) Display() string {
+	return "\u25CF"
 }
 
 func (b *Ball) Update() {
@@ -41,6 +41,10 @@ func (b *Ball) CheckEdges(maxWidth int, maxHeight int) {
 	}
 }
 
+func (b *Ball) intersects(p Paddle) bool {
+	return b.X >= p.X && b.X <= p.X+p.width && b.Y >= p.Y && b.Y <= p.Y+p.height
+}
+
 func RandomSpeed() int {
 	n, _ := rand.Int(rand.Reader, big.NewInt(100))
 	num := n.Int64()
@@ -49,4 +53,12 @@ func RandomSpeed() int {
 	} else {
 		return -1
 	}
+}
+
+func (b *Ball) reverseX() {
+	b.Xspeed *= -1
+}
+
+func (b *Ball) reverseY() {
+	b.Yspeed *= -1
 }
