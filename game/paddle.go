@@ -15,9 +15,9 @@ func NewPaddle() *Paddle {
 	paddle := Paddle{
 		X:      3,
 		Y:      1,
-		Xspeed: 0,
-		Yspeed: 3,
-		width:  20,
+		Xspeed: 3,
+		Yspeed: 0,
+		width:  10,
 		height: 1,
 	}
 	return &paddle
@@ -41,13 +41,13 @@ func (p *Paddle) MoveDown(windowHeight int) {
 }
 
 func (p *Paddle) MoveLeft() {
-	if p.Y > 0 {
-		p.Y -= p.Xspeed
+	if p.X > 0 {
+		p.X -= p.Xspeed
 	}
 }
 
 func (p *Paddle) MoveRight(windowWidth int) {
-	if p.Y < windowWidth-p.width {
-		p.Y += p.Xspeed
+	if p.X < windowWidth-p.width {
+		p.X += p.Xspeed
 	}
 }

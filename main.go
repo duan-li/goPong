@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/duan-li/goPong/console"
 	"github.com/duan-li/goPong/game"
 )
 
@@ -9,5 +10,5 @@ func main() {
 
 	go g.Run()
 
-	game.ReactWithInput(g)
+	console.Control(g)
 }
