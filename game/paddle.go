@@ -15,16 +15,28 @@ func NewPaddle() *Paddle {
 	paddle := Paddle{
 		X:      3,
 		Y:      1,
-		Xspeed: 3,
-		Yspeed: 0,
-		width:  10,
-		height: 1,
+		Xspeed: 0,
+		Yspeed: 4,
+		width:  1,
+		height: 4,
+	}
+	return &paddle
+}
+
+func NewPaddleRight() *Paddle {
+	paddle := Paddle{
+		X:      3,
+		Y:      1,
+		Xspeed: 0,
+		Yspeed: 4,
+		width:  1,
+		height: 4,
 	}
 	return &paddle
 }
 
 func (p *Paddle) Display() string {
-	return strings.Repeat(" ", p.width)
+	return strings.Repeat(" ", p.height)
 }
 
 func (p *Paddle) MoveUp() {
